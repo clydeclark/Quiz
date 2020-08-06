@@ -3,9 +3,11 @@ var startBtn = document.getElementById("start-btn");
 var questionCont = document.getElementById("question-container");
 var answers = document.getElementById("answer-buttons");
 var questionDisplay = document.getElementById("question")
-var answerBtn = document.getElementsByClassName("btn");
 var randomNum;
-var timer = 20;
+var timer = 60;
+var timerDisplay = document.getElementById("timer");
+var scoreEl = document.getElementById("score");
+
 
 // Questions
 var myQuestions = [{
@@ -22,6 +24,16 @@ var myQuestions = [{
         question: "What is 1 + 5?",
         answers: ["3", "6", "8", "5"],
         correctAnswer: "6"
+    },
+    {
+        question: "What is 3 + 5?",
+        answers: ["3", "6", "8", "5"],
+        correctAnswer: "8"
+    },
+    {
+        question: "What is 10 + 5?",
+        answers: ["13", "16", "18", "15"],
+        correctAnswer: "15"
     }
 ];
 
@@ -29,11 +41,23 @@ var myQuestions = [{
 function startQuiz() {
     startBtn.classList.add("hide");
     questionCont.classList.remove("hide");
+    scoreEl.classList.remove("hide")
     populateQuestion();
-    setInterval(function () {
+    scoreEl.textContent = 0;
+    var timerHandler = setInterval(function () {
         timer--;
-        console.log(timer);
+        if (timer <= 0) {
+            clearInterval(timerHandler);
+            endQuiz();
+        }
+        timerDisplay.textContent = timer;
     }, 1000)
+}
+
+function endQuiz() {
+    timer = 60;
+    startBtn.classList.remove("hide");
+    questionCont.classList.add("hide");
 }
 
 // Randomizes display questions
@@ -51,12 +75,20 @@ function populateQuestion() {
 
 // Checks for answer correctness
 function selectAnswer(event) {
-    if (event.target.value === myQuestions[randomNum].correctAnswer) {
-        score++;
-    } else {
-        timer--;
+    try {
+        if (event.target.value === myQuestions[randomNum].correctAnswer) {
+            score++;
+            scoreEl.firstChild.textContent = score;
+        } else {
+            timer = timer - 5;
+        }
+        myQuestions.splice(randomNum, 1);
+        populateQuestion();
+    } catch (error) {
+        endQuiz();
     }
-    populateQuestion();
 }
+
+
 
 startBtn.addEventListener("click", startQuiz);
