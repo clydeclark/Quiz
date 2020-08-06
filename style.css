@@ -55,3 +55,7 @@ body {
 .hide {
     display: none;
 }
+
+#question {
+    font-weight: bold;
+}
