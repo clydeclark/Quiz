@@ -4,6 +4,8 @@ var questionCont = document.getElementById("question-container");
 var answers = document.getElementById("answer-buttons");
 var questionDisplay = document.getElementById("question")
 var answerBtn = document.getElementsByClassName("btn");
+var randomNum;
+var timer = 20;
 
 // Questions
 var myQuestions = [{
@@ -23,26 +25,38 @@ var myQuestions = [{
     }
 ];
 
+// When clicked, hides start button and shows questions
 function startQuiz() {
     startBtn.classList.add("hide");
     questionCont.classList.remove("hide");
-    nextQuestion();
-    console.log(questionDisplay)
+    populateQuestion();
+    setInterval(function () {
+        timer--;
+        console.log(timer);
+    }, 1000)
 }
 
-function nextQuestion() {
+// Randomizes display questions
+function populateQuestion() {
     randomNum = Math.floor(Math.random() * myQuestions.length);
     questionDisplay.textContent = myQuestions[randomNum].question;
+
     for (var i = 0; i < answers.children.length; i++) {
         answers.children[i].textContent = myQuestions[randomNum].answers[i];
+        answers.children[i].setAttribute("value", myQuestions[randomNum].answers[i]);
+        answers.children[i].addEventListener("click", selectAnswer);
     }
+
 }
 
+// Checks for answer correctness
 function selectAnswer(event) {
-    if (event.target.tagName === "BUTTON") {
-        console.log("answer button clicked");
+    if (event.target.value === myQuestions[randomNum].correctAnswer) {
+        score++;
+    } else {
+        timer--;
     }
+    populateQuestion();
 }
 
 startBtn.addEventListener("click", startQuiz);
-answers.addEventListener("click", selectAnswer);

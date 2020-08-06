@@ -33,6 +33,7 @@ body {
 
 .btn {
     background-color: aquamarine;
+    padding: 5px;
 }
 
 .btn:hover {
