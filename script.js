@@ -8,6 +8,7 @@ var timer;
 var timerDisplay = document.getElementById("timer");
 var scoreEl = document.getElementById("score");
 var scoreList = document.getElementById("score-list");
+var scoreCont = document.getElementById("score-container");
 var timerHandler;
 var initials;
 var scoreBoard = [];
@@ -70,6 +71,8 @@ function startQuiz() {
 
 function endQuiz() {
     questionCont.classList.add("hide");
+    scoreEl.parentElement.classList.add("hide");
+    timerDisplay.parentElement.classList.add("hide");
     initials = prompt("Enter your initials");
     var user = {
         Name: initials,
@@ -115,6 +118,7 @@ function selectAnswer(event) {
 }
 
 function printScores() {
+
     // Clear list
     scoreList.innerHTML = "";
 
@@ -123,10 +127,11 @@ function printScores() {
         var scoreItem = scoreBoard[i];
 
         var li = document.createElement("li");
-        li.textContent = scoreItem;
+        li.textContent = scoreItem.Name + ": " + scoreItem.Score;
 
         scoreList.appendChild(li);
     }
+    scoreCont.classList.remove("hide");
 }
 
 
