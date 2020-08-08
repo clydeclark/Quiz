@@ -23,6 +23,11 @@ li {
     padding: 10px;
 }
 
+ul {
+    text-align: center;
+    padding-left: 0;
+}
+
 .container {
     width: 800px;
     max-width: 80%;
